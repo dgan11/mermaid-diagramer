@@ -131,33 +131,32 @@ export default function Home() {
 
         {/* Left Pane: Input (1/3 width) */}
         <div className="col-span-1 flex flex-col h-[calc(100vh-8rem)] sm:h-[calc(100vh-8rem)]">
-          <label htmlFor="mermaid-input" className="text-sm font-medium text-[var(--muji-ink)] mb-2 pl-1">
-            Mermaid Input:
+          <label 
+            htmlFor="mermaid-input" 
+            className="mb-4 text-base font-medium text-[var(--muji-ink)] pb-1 border-b border-[var(--muji-ink)] border-opacity-20 inline-block"
+          >
+            Mermaid Input
           </label>
           <textarea
             id="mermaid-input"
             value={mermaidInput}
             onChange={(e) => setMermaidInput(e.target.value)}
-            className="flex-grow p-4 rounded-md border border-[var(--muji-border)] shadow-sm focus:ring-1 focus:ring-[var(--muji-ink)] focus:border-[var(--muji-ink)] resize-none bg-white/70 text-[var(--muji-ink)] font-sans text-sm"
+            className="flex-grow p-4 rounded-md border border-[var(--muji-border)] shadow-sm focus:ring-1 focus:ring-[var(--muji-ink)] focus:border-[var(--muji-ink)] resize-none bg-white/90 text-[var(--muji-ink)] font-sans text-sm"
             placeholder="Paste your Mermaid diagram syntax here..."
             spellCheck="false"
-            style={{
-              backdropFilter: 'blur(2px)',
-            }}
           />
         </div>
 
         {/* Right Pane: Output (2/3 width) */}
         <div className="col-span-2 flex flex-col h-[calc(100vh-8rem)] sm:h-[calc(100vh-8rem)]">
-          <div className="text-sm font-medium text-[var(--muji-ink)] mb-2 pl-1">
-            Diagram Output:
+          <div 
+            className="mb-4 text-base font-medium text-[var(--muji-ink)] pb-1 border-b border-[var(--muji-ink)] border-opacity-20 inline-block"
+          >
+            Diagram Output
           </div>
           {/* Output container - removed background/grid styles to use global ones */}
           <div
-            className="flex-grow rounded-md border border-[var(--muji-border)] shadow-sm overflow-hidden relative bg-white/70"
-            style={{
-              backdropFilter: 'blur(2px)',
-            }}
+            className="flex-grow rounded-md border border-[var(--muji-border)] shadow-sm overflow-hidden relative bg-white/90"
           >
             {/* Wrap the content with TransformWrapper */}
             <TransformWrapper
