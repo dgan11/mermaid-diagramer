@@ -104,7 +104,7 @@ export default function Home() {
         const { svg } = await mermaid.render(id, mermaidInput);
         setSvgOutput(svg);
         setError(null); // Clear previous errors on success
-      } catch (e: any) {
+      } catch (e: unknown) {
         console.error("Mermaid rendering error:", e);
         // Provide user-friendly error feedback
         setError(e instanceof Error ? e.message : String(e));
