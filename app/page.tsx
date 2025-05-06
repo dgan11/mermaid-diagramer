@@ -13,43 +13,44 @@ if (typeof window !== 'undefined') {
     theme: 'base', // Use a base theme we can override
     themeVariables: {
       // --- Muji Pen Aesthetic ---
-      primaryColor: '#ffffff', // Background of nodes - keep light
-      primaryTextColor: '#262626', // Dark grey text like pencil/pen
-      primaryBorderColor: '#525252', // Slightly darker border for subtle definition
-      lineColor: '#525252', // Main color for lines/arrows
-      secondaryColor: '#f5f5f4', // Background for secondary elements if needed
-      tertiaryColor: '#e7e5e4', // Background for accents if needed
+      primaryColor: '#F8F6F0', // Eggshell white background instead of transparent
+      primaryTextColor: '#424242', // Using our ink color
+      primaryBorderColor: '#424242', // Pen stroke color
+      lineColor: '#424242', // Main color for lines/arrows
+      secondaryColor: '#F8F6F0', // Eggshell white for secondary elements
+      tertiaryColor: '#F8F6F0', // Eggshell white for accents
+      
+      // General text and background colors
+      edgeLabelBackground: '#F8F6F0', // Eggshell white for edge labels
+      textColor: '#424242',
+      noteTextColor: '#424242',
+      noteBkgColor: '#F8F6F0', // Eggshell white for notes
 
       // --- Font ---
-      // Consider adding a specific font if you have one, otherwise default
-      // fontFamily: '"Your Desired Font", sans-serif',
+      fontFamily: 'system-ui, -apple-system, sans-serif',
       fontSize: '14px',
 
-      // --- Specific diagram type overrides (example) ---
-      // You might need to fine-tune these per diagram type
+      // --- Specific diagram type overrides ---
       // Sequence Diagrams
-      sequenceParticipantBorderColor: '#525252',
-      sequenceParticipantTextColor: '#262626',
-      sequenceLifeLineBorderColor: '#525252',
-      sequenceLabelTextColor: '#262626',
-      sequenceArrowColor: '#525252',
+      sequenceParticipantBorderColor: '#424242',
+      sequenceParticipantTextColor: '#424242',
+      sequenceLifeLineBorderColor: '#424242',
+      sequenceLabelTextColor: '#424242',
+      sequenceArrowColor: '#424242',
+      sequenceMessageBackground: '#F8F6F0', // Eggshell white for messages
 
       // Flowchart
-      nodeBorder: '#525252',
-      clusterBkg: '#f5f5f4', // Background for subgraphs/clusters
-      clusterBorder: '#d6d3d1',
-      defaultLinkColor: '#525252',
-      mainBkg: '#ffffff', // Node background
-      nodeTextColor: '#262626',
-
-      // --- Stroke Width (Handled via CSS below) ---
+      nodeBorder: '#424242',
+      clusterBkg: '#F8F6F0', // Eggshell white for clusters
+      clusterBorder: '#424242',
+      defaultLinkColor: '#424242',
+      mainBkg: '#F8F6F0', // Eggshell white for nodes
+      labelBackground: '#F8F6F0', // Eggshell white for labels
+      nodeTextColor: '#424242',
     },
-    // Security level set to 'loose' to allow inline styles needed for some diagrams/themes
-    // Be mindful of security implications if user input isn't sanitized elsewhere.
     securityLevel: 'loose',
   });
 }
-
 
 export default function Home() {
   const [mermaidInput, setMermaidInput] = useState(`graph TD
@@ -120,60 +121,59 @@ export default function Home() {
   }, [mermaidInput]); // Re-run effect only when mermaidInput changes
 
   return (
-    // Main container with cardboard background
-    <main className="flex min-h-screen bg-[#D2B48C] p-4 sm:p-8 font-sans">
-      {/* Grid container for the two panes - Force 3 columns, input takes 1, output takes 2 */}
-      <div className="grid grid-cols-3 gap-4 sm:gap-8 flex-grow">
+    // Main container - removed background color to use the one from globals.css
+    <main className="flex flex-col min-h-screen p-6 sm:p-10 font-sans">
+      {/* App title - extremely minimal */}
+      <h1 className="text-center text-[var(--muji-ink)] text-lg mb-6 tracking-wider">mermaid diagramer</h1>
+      
+      {/* Grid container for the two panes */}
+      <div className="grid grid-cols-3 gap-6 sm:gap-10 flex-grow">
 
         {/* Left Pane: Input (1/3 width) */}
-        <div className="col-span-1 flex flex-col h-[calc(100vh-4rem)] sm:h-[calc(100vh-4rem)]"> {/* Adjust height based on padding */}
-          <label htmlFor="mermaid-input" className="text-sm font-medium text-neutral-700 mb-2">
+        <div className="col-span-1 flex flex-col h-[calc(100vh-8rem)] sm:h-[calc(100vh-8rem)]">
+          <label htmlFor="mermaid-input" className="text-sm font-medium text-[var(--muji-ink)] mb-2 pl-1">
             Mermaid Input:
           </label>
           <textarea
             id="mermaid-input"
             value={mermaidInput}
             onChange={(e) => setMermaidInput(e.target.value)}
-            className="flex-grow p-3 rounded-md border border-neutral-300 shadow-sm focus:ring-1 focus:ring-neutral-500 focus:border-neutral-500 resize-none bg-white text-neutral-900 font-mono text-sm"
+            className="flex-grow p-4 rounded-md border border-[var(--muji-border)] shadow-sm focus:ring-1 focus:ring-[var(--muji-ink)] focus:border-[var(--muji-ink)] resize-none bg-white/70 text-[var(--muji-ink)] font-sans text-sm"
             placeholder="Paste your Mermaid diagram syntax here..."
             spellCheck="false"
+            style={{
+              backdropFilter: 'blur(2px)',
+            }}
           />
         </div>
 
         {/* Right Pane: Output (2/3 width) */}
-        <div className="col-span-2 flex flex-col h-[calc(100vh-4rem)] sm:h-[calc(100vh-4rem)]"> {/* Adjust height based on padding */}
-          <div className="text-sm font-medium text-neutral-700 mb-2">
+        <div className="col-span-2 flex flex-col h-[calc(100vh-8rem)] sm:h-[calc(100vh-8rem)]">
+          <div className="text-sm font-medium text-[var(--muji-ink)] mb-2 pl-1">
             Diagram Output:
           </div>
-          {/* Eggshell paper background with grid - This div now handles overflow and background */}
+          {/* Output container - removed background/grid styles to use global ones */}
           <div
-            className="flex-grow rounded-md border border-neutral-300 shadow-sm overflow-hidden relative bg-[#FAF8F0]" // Changed overflow-auto to overflow-hidden
+            className="flex-grow rounded-md border border-[var(--muji-border)] shadow-sm overflow-hidden relative bg-white/70"
             style={{
-              // Subtle grid background using linear gradients
-              backgroundImage: `
-                linear-gradient(to right, rgba(214, 211, 209, 0.4) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(214, 211, 209, 0.4) 1px, transparent 1px)
-              `,
-              backgroundSize: '15px 15px', // Adjust grid size as needed
+              backdropFilter: 'blur(2px)',
             }}
           >
             {/* Wrap the content with TransformWrapper */}
             <TransformWrapper
               initialScale={1}
-              minScale={0.1} // Set minimum zoom out level
-              maxScale={10}  // Set maximum zoom in level
-              limitToBounds={false} // Allow panning outside initial bounds slightly
-              // You can customize options like wheel={{ step: 0.1 }} etc.
+              minScale={0.1}
+              maxScale={10}
+              limitToBounds={false}
             >
               <TransformComponent
-                // Apply styles to the direct wrapper of the content
                 wrapperStyle={{ width: '100%', height: '100%' }}
-                contentStyle={{ width: '100%', height: '100%' }} // Ensure content takes space
+                contentStyle={{ width: '100%', height: '100%' }}
               >
-                {/* Container for the SVG - removed overflow-auto, added flex centering */}
+                {/* Container for the SVG */}
                 <div
-                  className="p-4 mermaid-output-container flex items-center justify-center w-full h-full [&_svg]:max-w-none [&_svg]:h-auto" // Removed max-w-full from svg, added flex centering
-                  dangerouslySetInnerHTML={{ __html: error ? `<pre class="text-red-600 p-4">${error}</pre>` : svgOutput }}
+                  className="p-4 mermaid-output-container flex items-center justify-center w-full h-full [&_svg]:max-w-none [&_svg]:h-auto"
+                  dangerouslySetInnerHTML={{ __html: error ? `<pre class="text-[var(--muji-ink)] p-4">${error}</pre>` : svgOutput }}
                 />
               </TransformComponent>
             </TransformWrapper>
@@ -195,15 +195,43 @@ export default function Home() {
         .mermaid-output-container .loopLine,
         .mermaid-output-container .note rect,
         .mermaid-output-container .actor {
-          stroke-width: 0.7px !important; /* Target 0.5mm feel */
+          stroke-width: 0.5px !important; /* Even finer pen feel */
           vector-effect: non-scaling-stroke; /* Keep stroke width constant on zoom */
         }
-         /* Optional: Slightly thinner text for a finer feel */
-         /*
+        
+        /* Style for text to match Muji typography */
         .mermaid-output-container text {
+          font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif !important;
           font-size: 13px !important;
+          fill: var(--muji-ink) !important;
         }
-        */
+        
+        /* Cluster/subgraph label background */
+        .mermaid-output-container .cluster .cluster-label rect {
+          fill: #F8F6F0 !important;
+        }
+        
+        /* Node backgrounds - make them eggshell white instead of semi-transparent */
+        .mermaid-output-container .node rect,
+        .mermaid-output-container .node circle,
+        .mermaid-output-container .node polygon {
+          fill: #F8F6F0 !important;
+        }
+        
+        /* Ensure all diagram elements with backgrounds have eggshell white */
+        .mermaid-output-container .label rect,
+        .mermaid-output-container .edgeLabel rect,
+        .mermaid-output-container .labelBackground,
+        .mermaid-output-container .note,
+        .mermaid-output-container .marker {
+          fill: #F8F6F0 !important;
+        }
+        
+        /* Ensure labels are always readable by giving them an eggshell background */
+        .mermaid-output-container .edgeLabel {
+          background-color: #F8F6F0 !important;
+          color: var(--muji-ink) !important;
+        }
       `}</style>
     </main>
   );

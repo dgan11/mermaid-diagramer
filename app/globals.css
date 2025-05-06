@@ -2,6 +2,88 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --muji-bg: #FDFBF6; /* Soft off-white */
+  --muji-grid: rgba(224, 224, 224, 0.6); /* Light grey for grid, more subtle */
+  --muji-ink: #424242;  /* Dark grey/black for text/lines */
+  --muji-border: #CCCCCC; /* Slightly darker grey for borders */
+  --grid-size: 22px; /* Slightly larger grid */
+}
+
+/* Subtle paper texture */
+@keyframes paperNoise {
+  0%, 100% { opacity: 0.03; }
+  50% { opacity: 0.06; }
+}
+
 body {
-  font-family: system-ui, -apple-system, sans-serif;
+  background-color: var(--muji-bg);
+  /* Combined grid layers for that premium stationery feel */
+  background-image:
+    /* Regular grid */
+    linear-gradient(to right, var(--muji-grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--muji-grid) 1px, transparent 1px),
+    /* Larger, more subtle grid */
+    linear-gradient(to right, rgba(224, 224, 224, 0.3) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(224, 224, 224, 0.3) 1px, transparent 1px);
+  
+  background-size: 
+    var(--grid-size) var(--grid-size),
+    var(--grid-size) var(--grid-size),
+    calc(var(--grid-size) * 5) calc(var(--grid-size) * 5),
+    calc(var(--grid-size) * 5) calc(var(--grid-size) * 5);
+  
+  background-position: 0 0;
+  color: var(--muji-ink);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  
+  /* Paper texture effect */
+  position: relative;
+}
+
+/* Add paper texture overlay */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  z-index: -1;
+  pointer-events: none;
+  animation: paperNoise 8s infinite ease-in-out;
+}
+
+/* Minimalist scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--muji-border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muji-ink);
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--muji-border) transparent;
+}
+
+/* Ensure Tailwind base styles don't override our body background */
+@layer base {
+  body {
+    @apply bg-transparent; /* Use our custom background */
+  }
 }
